@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:isolate';
 import 'package:hive/hive.dart';
+import 'package:smooth_api/src/objects_initializer.dart';
 
 /// This class will only be initialised in ExternalApiAdapter.
 class ApiIsolate{
@@ -21,18 +22,25 @@ class ApiIsolate{
     receivePort.listen((receivedData) {
       if(receivedData is SendPort){
         sendPortCompleter.complete(receivedData);
+      }else{
+
       }
     });
   }
 
   /// [static] Method through which all data will be processed in secondary isolate
-  static void _worker(SendPort sendPort){
+  static void _worker(SendPort sendPort) async{
     ReceivePort receivePort = ReceivePort();
     sendPort.send(receivePort.sendPort);
-    Hive.init("/HttpCache");
+    var objs = await ObjectInitializer.get();
     receivePort.listen((incomingData) {
-      /// Putting example call
-      /// sendPort.send(await InternalApiAdapter.process(incomingData))
+      try{
+        /// Putting example call
+        /// sendPort.send(await InternalApiAdapter.process(incomingData))
+      }catch(e, s){
+        print(e);
+        print(s);
+      }
     });
   }
 }
