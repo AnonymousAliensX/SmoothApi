@@ -1,6 +1,5 @@
 import 'dart:async';
 import 'dart:isolate';
-import 'package:hive/hive.dart';
 import 'package:smooth_api/src/objects_initializer.dart';
 
 /// This class will only be initialised in ExternalApiAdapter.
@@ -33,8 +32,10 @@ class ApiIsolate{
     ReceivePort receivePort = ReceivePort();
     sendPort.send(receivePort.sendPort);
     var objs = await ObjectInitializer.get();
-    receivePort.listen((incomingData) {
+    receivePort.listen((incomingData) async{
       try{
+        print("Worker got Work");
+        await Future.delayed(Duration(seconds: 20));
         /// Putting example call
         /// sendPort.send(await InternalApiAdapter.process(incomingData))
       }catch(e, s){
@@ -48,5 +49,6 @@ class ApiIsolate{
 Future<void> main() async {
   final isolate = ApiIsolate();
   SendPort sendPort = await isolate.runIsolate();
+  sendPort.send("message");
   sendPort.send("message");
 }

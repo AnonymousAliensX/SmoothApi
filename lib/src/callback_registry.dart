@@ -1,7 +1,7 @@
 import 'dart:collection';
 
 import 'package:smooth_api/src/callbacks/response_callback.dart';
-import 'package:smooth_api/src/datamodels/outgoing_data.dart';
+import 'package:smooth_api/src/datamodels/response.dart';
 
 class CallbackRegistry{
 
@@ -11,8 +11,8 @@ class CallbackRegistry{
     callbacks.putIfAbsent(generateKey(), () => responseCallback);
   }
 
-  void sendCallback(int key, ResponseData responseData){
-    callbacks.remove(key)?.onResponse(responseData);
+  void sendCallback(int key, Response response){
+    callbacks.remove(key)?.onResponse(response);
   }
 
   int generateKey(){
