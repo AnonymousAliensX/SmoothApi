@@ -1,6 +1,6 @@
-import 'package:http/http.dart' as http;
+import 'package:smooth_api/src/datamodels/response.dart';
 
 class OutgoingData{
   late int callbackKey;
-  late http.Response response;
+  late Response response;
 }
