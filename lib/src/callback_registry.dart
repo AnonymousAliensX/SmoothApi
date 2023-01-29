@@ -13,7 +13,7 @@ class CallbackRegistry{
   }
 
   static void sendCallback(int key, Response response){
-    if(response.headers["isCache"] == 'true'){
+    if(response.isCache){
       callbacks[key]?.call(response);
       return;
     }

@@ -1,13 +1,15 @@
 import 'package:hive/hive.dart';
+import 'package:smooth_api/src/datamodels/request.dart';
+import 'package:smooth_api/src/datamodels/response.dart';
 import 'crypto.dart';
 
-Future<void> cacheResponse(String request, dynamic response) async{
+Future<void> cacheResponse(Request request, Response response) async{
   var box = await Hive.openBox("responses");
-  box.put(generateMd5(request), response);
+  box.put(generateMd5(request), response.bodyBytes);
 }
 
-Future<dynamic> getCacheResponse(String request) async {
+Future<Response> getCacheResponse(Request request) async {
   String key = generateMd5(request);
   var box = await Hive.openBox("responses");
-  return await box.get(key);
+  return Response.bytes(box.get(key), 400);
 }

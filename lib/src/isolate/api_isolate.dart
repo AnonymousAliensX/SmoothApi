@@ -5,6 +5,8 @@ import 'package:smooth_api/src/datamodels/incoming_data.dart';
 import 'package:smooth_api/src/datamodels/outgoing_data.dart';
 import 'package:smooth_api/src/objects_initializer.dart';
 
+import 'InternalApi.dart';
+
 /// This class will only be initialised in ExternalApiAdapter.
 class ApiIsolate{
   ReceivePort receivePort = ReceivePort();
@@ -59,7 +61,7 @@ class ApiIsolate{
       try{
         print("Worker got Work");
         /// Putting example call
-        /// sendPort.send(await InternalApi.process(incomingData))
+        sendPort.send(await InternalApi.process(incomingData, sendPort));
       }catch(e, s){
         print(e);
         print(s);
