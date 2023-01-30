@@ -1,10 +1,10 @@
-## Discription
+## Description
 
 This library utilises Dart internal isolate to handle all your network calls to Api and on top of that it uses Hive database to cache the api responses and will give the response back even when internet is not available.
 
 ## Features
 
--   Send request to your api on seperate isolate
+-   Send request to your api on separate isolate
 -   Cached your responses which enables your app to work in offline mode.
 -   Helps in saving the work load (network requests) from main isolate which helps it to focus mainly on rendering.
 

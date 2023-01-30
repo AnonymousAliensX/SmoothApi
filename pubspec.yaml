@@ -1,5 +1,5 @@
 name: smooth_api
-description: A starting point for Dart libraries or applications.
+description: This library utilises Dart internal isolate to handle all your network calls to Api and on top of that it uses Hive database to cache the api responses and will give the response back even when internet is not available.
 version: 1.0.0
 homepage: https://github.com/AnonymousAliensX/SmoothApi
 maintainer: Sawan Sihag (@InvincibleSihag)
