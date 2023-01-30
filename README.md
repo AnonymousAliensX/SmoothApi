@@ -10,7 +10,7 @@ This library utilises Dart internal isolate to handle all your network calls to 
 
 ## Getting started
 
-To start using this package, add `category_navigator` dependency to your `pubspec.yaml`
+To start using this package, add `smooth_api` dependency to your `pubspec.yaml`
 
 ```yaml
 dependencies:
