@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:isolate';
 
 import 'package:smooth_api/src/datamodels/incoming_data.dart';
@@ -10,6 +11,7 @@ import 'package:smooth_api/src/utilities/hive.dart';
 class InternalApi {
   static Future<void> returnCache(
       int key, Request request, SendPort sendPort) async {
+    Completer<void> completer = Completer();
     try {
       Response resp = await getCacheResponse(request);
       resp.isCache = true;
@@ -17,13 +19,14 @@ class InternalApi {
       outgoingData.callbackKey = key;
       outgoingData.response = resp;
       sendPort.send(outgoingData);
+      completer.complete();
     } catch (ignored) {
-      //
+      completer.complete();
     }
+    return completer.future;
   }
 
   static Future<Response> getResponse(Request request) async {
-    print(request.toString());
     return Response.fromStream(
         await (await ObjectInitializer.get()).client.send(request));
   }
