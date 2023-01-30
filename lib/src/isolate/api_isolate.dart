@@ -5,7 +5,7 @@ import 'package:smooth_api/src/datamodels/incoming_data.dart';
 import 'package:smooth_api/src/datamodels/outgoing_data.dart';
 import 'package:smooth_api/src/objects_initializer.dart';
 
-import 'InternalApi.dart';
+import 'internal_api.dart';
 
 /// This class will only be initialised in ExternalApiAdapter.
 class ApiIsolate {

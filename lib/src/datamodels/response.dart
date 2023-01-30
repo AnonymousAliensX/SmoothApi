@@ -4,7 +4,7 @@ import 'dart:typed_data';
 import 'package:http/http.dart';
 import 'package:http_parser/http_parser.dart';
 
-import '../utilities/utils.dart';
+import 'package:smooth_api/src/utilities/utils.dart';
 
 class Response extends BaseResponse {
   final Uint8List bodyBytes;
