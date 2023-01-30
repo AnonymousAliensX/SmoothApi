@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:hive/hive.dart';
 import 'package:http/http.dart' as http;
 
@@ -6,6 +8,7 @@ class ObjectInitializer {
   late Box getResponseBox, postResponseBox;
   late http.Client client;
   static late ObjectInitializer _instance;
+  static final Completer<ObjectInitializer> instanceCompleter = Completer();
 
   ObjectInitializer._() {
     Hive.init("/HttpCache");
@@ -29,9 +32,10 @@ class ObjectInitializer {
 
   static Future<ObjectInitializer> _initialise() async {
     _instance = ObjectInitializer._();
-    _instance.getResponseBox = await Hive.openBox("getCache");
-    _instance.postResponseBox = await Hive.openBox("postCache");
+    // _instance.getResponseBox = await Hive.openBox("getCache");
+    // _instance.postResponseBox = await Hive.openBox("postCache");
     _instance.initialised = true;
-    return _instance;
+    instanceCompleter.complete(_instance);
+    return instanceCompleter.future;
   }
 }

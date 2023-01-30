@@ -11,17 +11,19 @@ import 'internal_api.dart';
 class ApiIsolate {
   ReceivePort receivePort = ReceivePort();
   ReceivePort errorReceivePort = ReceivePort();
-  late SendPort sendPort;
+  SendPort? sendPort;
   Completer sendPortCompleter = Completer();
+  static final Completer<ApiIsolate> _instanceCompleter = Completer();
   static ApiIsolate? _instance;
 
   static Future<ApiIsolate?> get() async {
     if (_instance != null) {
-      return _instance;
+      return _instanceCompleter.future;
     }
     _instance = ApiIsolate();
     _instance?.sendPort = await _instance?.runIsolate();
-    return _instance;
+    _instanceCompleter.complete(_instance);
+    return _instanceCompleter.future;
   }
 
   /// This method spawns a new isolate and returns a SendPort object
@@ -59,9 +61,6 @@ class ApiIsolate {
     await ObjectInitializer.get();
     receivePort.listen((incomingData) async {
       try {
-        print("Worker got Work");
-
-        /// Putting example call
         sendPort.send(await InternalApi.process(incomingData, sendPort));
       } catch (e, s) {
         print(e);
@@ -72,7 +71,7 @@ class ApiIsolate {
 
   /// [static] method to send the incoming request data to secondary isolate
   static void send(IncomingData incomingData) async {
-    (await ApiIsolate.get())?.sendPort.send(incomingData);
+    (await ApiIsolate.get())?.sendPort?.send(incomingData);
   }
 }
 

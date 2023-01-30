@@ -60,7 +60,6 @@ class SmoothApiClient {
         throw ArgumentError('Invalid request body "$body".');
       }
     }
-    print("Wrapping to Request");
     IncomingData incomingData = IncomingData();
     incomingData.request = request;
     incomingData.callbackKey = CallbackRegistry.addCallback(callback);
