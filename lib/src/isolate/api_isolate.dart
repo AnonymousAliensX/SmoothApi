@@ -8,16 +8,15 @@ import 'package:smooth_api/src/objects_initializer.dart';
 import 'InternalApi.dart';
 
 /// This class will only be initialised in ExternalApiAdapter.
-class ApiIsolate{
+class ApiIsolate {
   ReceivePort receivePort = ReceivePort();
   ReceivePort errorReceivePort = ReceivePort();
   late SendPort sendPort;
   Completer sendPortCompleter = Completer();
   static ApiIsolate? _instance;
 
-
-  static Future<ApiIsolate?> get() async{
-    if(_instance != null){
+  static Future<ApiIsolate?> get() async {
+    if (_instance != null) {
       return _instance;
     }
     _instance = ApiIsolate();
@@ -27,7 +26,7 @@ class ApiIsolate{
 
   /// This method spawns a new isolate and returns a SendPort object
   /// returns [SendPort]
-  Future<dynamic> runIsolate() async{
+  Future<dynamic> runIsolate() async {
     listenToReceivedData();
     var isolate = await Isolate.spawn(_worker, receivePort.sendPort);
     isolate.addErrorListener(errorReceivePort.sendPort);
@@ -36,13 +35,14 @@ class ApiIsolate{
 
   /// This method listens to data coming from secondary isolate
   /// it also handles receiving of sendPort from secondary isolate
-  void listenToReceivedData(){
+  void listenToReceivedData() {
     receivePort.listen((receivedData) {
-      if(receivedData is SendPort){
+      if (receivedData is SendPort) {
         sendPortCompleter.complete(receivedData);
-      }else{
+      } else {
         var outgoingData = receivedData as OutgoingData;
-        CallbackRegistry.sendCallback(outgoingData.callbackKey, outgoingData.response);
+        CallbackRegistry.sendCallback(
+            outgoingData.callbackKey, outgoingData.response);
       }
     });
 
@@ -53,16 +53,17 @@ class ApiIsolate{
   }
 
   /// [static] Method through which all data will be processed in secondary isolate
-  static void _worker(SendPort sendPort) async{
+  static void _worker(SendPort sendPort) async {
     ReceivePort receivePort = ReceivePort();
     sendPort.send(receivePort.sendPort);
     await ObjectInitializer.get();
-    receivePort.listen((incomingData) async{
-      try{
+    receivePort.listen((incomingData) async {
+      try {
         print("Worker got Work");
+
         /// Putting example call
         sendPort.send(await InternalApi.process(incomingData, sendPort));
-      }catch(e, s){
+      } catch (e, s) {
         print(e);
         print(s);
       }
@@ -70,7 +71,7 @@ class ApiIsolate{
   }
 
   /// [static] method to send the incoming request data to secondary isolate
-  static void send(IncomingData incomingData) async{
+  static void send(IncomingData incomingData) async {
     (await ApiIsolate.get())?.sendPort.send(incomingData);
   }
 }

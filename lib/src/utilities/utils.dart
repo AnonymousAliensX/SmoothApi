@@ -11,9 +11,9 @@ import 'package:http/http.dart';
 String mapToQuery(Map<String, String> map, {Encoding? encoding}) {
   var pairs = <List<String>>[];
   map.forEach((key, value) => pairs.add([
-    Uri.encodeQueryComponent(key, encoding: encoding ?? utf8),
-    Uri.encodeQueryComponent(value, encoding: encoding ?? utf8)
-  ]));
+        Uri.encodeQueryComponent(key, encoding: encoding ?? utf8),
+        Uri.encodeQueryComponent(value, encoding: encoding ?? utf8)
+      ]));
   return pairs.map((pair) => '${pair[0]}=${pair[1]}').join('&');
 }
 
@@ -34,7 +34,7 @@ Encoding encodingForCharset(String? charset, [Encoding fallback = latin1]) {
 /// [charset] may not be null.
 Encoding requiredEncodingForCharset(String charset) =>
     Encoding.getByName(charset) ??
-        (throw FormatException('Unsupported encoding "$charset".'));
+    (throw FormatException('Unsupported encoding "$charset".'));
 
 /// A regular expression that matches strings that are composed entirely of
 /// ASCII-compatible characters.

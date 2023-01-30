@@ -6,7 +6,7 @@ import 'package:http_parser/http_parser.dart';
 
 import '../utilities/utils.dart';
 
-class Response extends BaseResponse{
+class Response extends BaseResponse {
   final Uint8List bodyBytes;
   bool isCache = false;
 
@@ -23,32 +23,32 @@ class Response extends BaseResponse{
   /// Creates a new HTTP response with a string body.
   Response(String body, int statusCode,
       {BaseRequest? request,
-        Map<String, String> headers = const {},
-        bool isRedirect = false,
-        bool persistentConnection = true,
-        String? reasonPhrase})
+      Map<String, String> headers = const {},
+      bool isRedirect = false,
+      bool persistentConnection = true,
+      String? reasonPhrase})
       : this.bytes(_encodingForHeaders(headers).encode(body), statusCode,
-      request: request,
-      headers: headers,
-      isRedirect: isRedirect,
-      persistentConnection: persistentConnection,
-      reasonPhrase: reasonPhrase);
+            request: request,
+            headers: headers,
+            isRedirect: isRedirect,
+            persistentConnection: persistentConnection,
+            reasonPhrase: reasonPhrase);
 
   /// Create a new HTTP response with a byte array body.
   Response.bytes(List<int> bodyBytes, int statusCode,
       {BaseRequest? request,
-        Map<String, String> headers = const {},
-        bool isRedirect = false,
-        bool persistentConnection = true,
-        String? reasonPhrase})
+      Map<String, String> headers = const {},
+      bool isRedirect = false,
+      bool persistentConnection = true,
+      String? reasonPhrase})
       : bodyBytes = toUint8List(bodyBytes),
         super(statusCode,
-          contentLength: bodyBytes.length,
-          request: request,
-          headers: headers,
-          isRedirect: isRedirect,
-          persistentConnection: persistentConnection,
-          reasonPhrase: reasonPhrase);
+            contentLength: bodyBytes.length,
+            request: request,
+            headers: headers,
+            isRedirect: isRedirect,
+            persistentConnection: persistentConnection,
+            reasonPhrase: reasonPhrase);
 
   /// Creates a new HTTP response by waiting for the full body to become
   /// available from a [StreamedResponse].
