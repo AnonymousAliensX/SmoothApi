@@ -1,39 +1,35 @@
-<!-- 
-This README describes the package. If you publish this package to pub.dev,
-this README's contents appear on the landing page for your package.
+## Discription
 
-For information about how to write a good package README, see the guide for
-[writing package pages](https://dart.dev/guides/libraries/writing-package-pages). 
-
-For general information about developing packages, see the Dart guide for
-[creating packages](https://dart.dev/guides/libraries/create-library-packages)
-and the Flutter guide for
-[developing packages and plugins](https://flutter.dev/developing-packages). 
--->
-
-TODO: Put a short description of the package here that helps potential users
-know whether this package might be useful for them.
+This library utilises Dart internal isolate to handle all your network calls to Api and on top of that it uses Hive database to cache the api responses and will give the response back even when internet is not available.
 
 ## Features
 
-TODO: List what your package can do. Maybe include images, gifs, or videos.
+- Send request to your api on seperate isolate
+- Cached your responses which enables your app to work in offline mode.
+- Helps in saving the work load (network requests) from main isolate which helps it to focus mainly on rendering.
 
 ## Getting started
 
-TODO: List prerequisites and provide or point to information on how to
-start using the package.
+To start using this package, add category_navigator dependency to your pubspec.yaml
+
+```yaml
+dependencies:
+    smooth_api: "<latest_release>"
+```
 
 ## Usage
 
-TODO: Include short and useful examples for package users. Add longer examples
-to `/example` folder. 
+Example GET request using SmoothApi
 
 ```dart
-const like = 'sample';
+import 'package:smooth_api/smooth_api.dart';
+
+var client = SmoothApiClient();
+  await client.get(Uri.https("google.com"),
+  callback(response) {
+    print((response as Response).body);
+  });
 ```
+## Bugs or Report
 
-## Additional information
-
-TODO: Tell users more about the package: where to find more information, how to 
-contribute to the package, how to file issues, what response they can expect 
-from the package authors, and more.
+If you encounter any problems feel free to open an [issue] If you feel the library is missing a feature, please raise a [ticket] on GitHub and I'll look into it. Pull request are also welcome.
